@@ -1,0 +1,28 @@
+input {
+	file {
+		path => "D:/TESTS/logstash multilines/METEO_NOAA_GRIB2_IMPORT.log"
+		sincedb_path => "D:/TESTS/logstash multilines/METEO_NOAA_GRIB2_IMPORT.log.idx"
+		start_position => "beginning"
+		codec => multiline {
+			pattern => "^<"
+			what => previous
+		}
+	}
+}
+
+filter {
+	mutate
+	{
+		gsub => ["message", "\n", "LINE_BREAK"]
+	}
+	grok {
+		patterns_dir => "./patterns"
+		match => ["message", ".*level=\"%{ALL:level}\" thread.*<code>%{ALL:code}</code>.*"]
+	}
+}
+
+output {
+	stdout { 
+		codec => rubydebug
+	}
+}
