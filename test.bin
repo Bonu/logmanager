@@ -25,4 +25,30 @@ output {
 	stdout { 
 		codec => rubydebug
 	}
+	
+	-- pattern
+	
+	ALL (.*)
+	
+	--- sample data
+	
+	<log4j:event logger="MMAutomate.MMANOAAGrib2" timestamp="1371445224593" datetime="2013-06-17 07:00" level="ERROR" thread="METEO_NOAA_GRIB2_IMPORT">
+<log4j:message><code>701</code><pdesc>MMA-0701:Parsing failed</pdesc><comment>java.lang.NullPointerException</comment></log4j:message>
+<log4j:NDC><![CDATA[METEO_NOAA_GRIB2_IMPORT]]></log4j:NDC>
+<log4j:locationInfo class="MMAutomate.MMANOAAGrib2" method="readOneGrib2file" file="MMANOAAGrib2.java" line="275"/>
+</log4j:event>
+
+<log4j:event logger="MMAutomate.MMANOAAGrib2" timestamp="1371445231483" datetime="2013-06-17 07:00" level="ERROR" thread="METEO_NOAA_GRIB2_IMPORT">
+<log4j:message><code>701</code><pdesc>MMA-0701:Parsing failed</pdesc><comment>java.lang.NullPointerException</comment></log4j:message>
+<log4j:NDC><![CDATA[METEO_NOAA_GRIB2_IMPORT]]></log4j:NDC>
+<log4j:locationInfo class="MMAutomate.MMANOAAGrib2" method="readOneGrib2file" file="MMANOAAGrib2.java" line="275"/>
+</log4j:event>
+
+<log4j:event logger="MMAutomate.MMANOAAGrib2" timestamp="1371445231749" datetime="2013-06-17 07:00" level="ERROR" thread="METEO_NOAA_GRIB2_IMPORT">
+<log4j:message><code>701</code><pdesc>MMA-0701:Parsing failed</pdesc><comment>java.lang.NullPointerException</comment></log4j:message>
+<log4j:NDC><![CDATA[METEO_NOAA_GRIB2_IMPORT]]></log4j:NDC>
+<log4j:locationInfo class="MMAutomate.MMANOAAGrib2" method="readOneGrib2file" file="MMANOAAGrib2.java" line="275"/>
+</log4j:event>
+
+
 }
