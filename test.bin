@@ -52,3 +52,54 @@ output {
 
 
 }
+
+-------------------weblogic logstash ----------------------------------
+
+input {
+        file {
+                path => [ "/home/agrdev02/agrdevweb12_logs/agora.log"]
+                sincedb_path => "/home/agrdev02/agrdevweb12_logs/agoratest.idx"
+                start_position => "beginning"
+                codec => multiline {
+                         pattern => "^[0-9]{4}"
+                         negate => true
+                         what => previous
+                }
+        }
+}
+
+filter {
+        mutate
+        {
+                gsub => ["message", "\n", "LINE_BREAK"]
+        }
+        grok {
+    #            match => ["message","<%{WLS_DATESTAMP %{GREEDYDATA:logmessage}"]
+  #  match => ["message","%{DATA:wls_timestamp} %{WORD:severity} %{DATA:wls_topic} %{HOST:hostname} (%{WORD:server})? %{GREEDYDATA:logmessage}"]
+    match => ["message","%{WLS_DATESTAMP:timestamp} \[\[%{DATA:thread_status}\] ExecuteThread: '%{INT:thread_nr}'  \] %{WORD:severity} %{DATA:logmessage}$"]
+   tag_on_failure => ["parsefailure"]
+
+     }
+
+  if "parsefailure" in [tags] {
+    grok {
+     match => ["message","%{WLS_DATESTAMP:timestamp} \[%{DATA:thread_status}\] %{WORD:severity} %{DATA:logmessage}$"]
+     tag_on_failure => ["failedagain"]
+    }
+  }
+}
+
+output {
+        stdout {
+                codec => rubydebug
+        }
+
+ elasticsearch {
+        embedded => "false"
+        cluster => "myCluster"
+        index_type => "%{type}"
+        host => "127.0.0.1"
+   }
+}
+
+
