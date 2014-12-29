@@ -1,0 +1,70 @@
+package com.jbonu.encdecfile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+
+public class FileDec {
+
+	public FileDec() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Path origPath = Paths.get("D:/package/air-parent1.txt");
+		Path targetPath = Paths.get("D:/package/air-parent1dec.zip");
+
+//		Base64.Encoder encoder = Base64.getMimeEncoder();
+		Base64.Decoder decoder = Base64.getMimeDecoder();
+		
+		try(InputStream input = Files.newInputStream(origPath)){ 
+			Files.copy(decoder.wrap(input),targetPath);
+//			OutputStream encodedStream = 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
+
+package com.jbonu.encdecfile;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+
+public class FileEnc {
+
+	public FileEnc() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Path origPath = Paths.get("D:/package/air-parent1.zip");
+		Path targetPath = Paths.get("D:/package/air-parent1.txt");
+
+		Base64.Encoder encoder = Base64.getMimeEncoder();
+		
+		try(OutputStream output = Files.newOutputStream(targetPath)){ 
+			Files.copy(origPath, encoder.wrap(output));
+//			OutputStream encodedStream = 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
