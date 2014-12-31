@@ -1,0 +1,884 @@
+The Java EE 7 specification includes WebSockets and improvements to Contexts and Dependency Injection (CDI).
+
+Java EE 7 specification, which is supposed to mean simplicity, standardization and embeddability for both cloud and mobile development scenarios
+
+
+DevOps:
+http://searchdatacenter.techtarget.com/tip/Reshaping-IT-organizations-to-fulfill-a-DevOps-strategy
+
+http://linuxmafia.com/ssh/java.html
+
+ETH Zurich 
+
+https://staff.aist.go.jp/c.artho/
+
+http://linuxmafia.com/
+
+http://linuxmafia.com/kb/
+
+
+Fun:
+
+Dihydrogen_monoxide_hoax ? Water :)
+
+http://samizdat.mines.edu/howto/HowToBeAProgrammer.html
+
+
+Facebook: If you're not paying for it, you're the customer. You're the product being sold
+
+https://www.openshift.com/blogs/day-13-dropwizard-the-awesome-java-rest-server-stack
+
+[IaaS] The capability provided to the consumer is to provision processing, storage, networks, and other fundamental computing resources where the consumer is able to deploy and run arbitrary software, which can include operating systems and applications. The consumer does not manage or control the underlying cloud infrastructure but has control over operating systems, storage, and deployed applications; and possibly limited control of select networking components (e.g., host firewalls).
+
+[PaaS] The capability provided to the consumer is to deploy onto the cloud infrastructure consumer-created or acquired applications created using programming languages, libraries, services, and tools supported by the provider.The consumer does not manage or control the underlying cloud infrastructure including network, servers, operating systems, or storage, but has control over the deployed applications and possibly configuration settings for the application-hosting environment.
+
+[SaaS] The capability provided to the consumer is to use the provider’s applications running on a cloud infrastructure. The applications are accessible from various client devices through a thin client interface such as a web browser (e.g., web-based email). The consumer does not manage or control the underlying cloud infrastructure including network, servers, operating systems, storage, or even individual application capabilities, with the possible exception of limited user-specific application configuration settings.
+
+
+http://www.eclipse.org/jetty/documentation/current/embedded-examples.html#d0e18068
+
+
+Elastic Search
+Every instance of ElasticSearch is called as node. Several nodes are grouped in a cluster. This is the base of the cloud nature of ElasticSearch.
+
+Parameters
+set JAVA_HOME=C:\HOMEWARE\ITEC-Toolbox\apps\jdk\jdk1.7.0_01-windows-x64
+set  ES_HOME=C:\HOMEWARE\Downloads\Paris\TMonV3Demo\tmon-storage\elasticsearch-0.90.2
+set ES_JAVA_OPTS=-server 1.7.0_25
+
+MongoDB 
+shards
+A shard is a replica set or a single mongod that contains a subset of the data for the sharded cluster. Together, the cluster’s shards hold the entire data set for the cluster.
+Typically each shard is a replica set. The replica set provides redundancy and high availability for the data in each shard.
+
+Shard
+A single mongod instance or replica set that stores some portion of a sharded cluster’s total data set. In production, all shards should be replica sets. See Shards.
+
+Shard from Wiki
+Database architecture[edit]
+
+Horizontal partitioning is a database design principle whereby rows of a database table are held separately, rather than being split into columns (which is what normalization and vertical partitioning do, to differing extents). Each partition forms part of a shard, which may in turn be located on a separate database server or physical location.
+There are numerous advantages to this partitioning approach. Since the tables are divided and distributed into multiple servers, the total number of rows in each table in each database is reduced. This reduces index size, which generally improves search performance. A database shard can be placed on separate hardware, and multiple shards can be placed on multiple machines. This enables a distribution of the database over a large number of machines, which means that the database performance can be spread out over multiple machines, greatly improving performance. In addition, if the database shard is based on some real-world segmentation of the data (e.g., European customers v. American customers) then it may be possible to infer the appropriate shard membership easily and automatically, and query only the relevant shard.[1]
+In practice, sharding is far more complex. Although it has been done for a long time by hand-coding (especially where rows have an obvious grouping, as per the example above), this is often inflexible. There is a desire to support sharding automatically, both in terms of adding code support for it, and for identifying candidates to be sharded separately. Consistent hashing is one form of automatic sharding to spread large loads across multiple smaller services and servers.
+
+
+Tibco RV and JMS implementations are the two most important and widespread enterprise messaging solutions in the Java / JVM environment.
+In most use cases, a JMS implementation using the point-to-point concept will be the right tool for the right job!
+
+Use Tibco RV (or other multicast products) if you need a very fast, near real-time messaging solution and if you can accept unreliable messages. You should at least know, that this product exists. If you do performance tests with several JMS implementations because you need high performance, you probably should also evaluate Tibco RV.
+
+ MuleSoft provides the #1 open source Enterprise Service Bus, Mule, along with SOA integration cloud services that are used by customers like eBay, Amazon, and Walmart. Learn More about SOA Best Practices, Mobile E-Commerce, and Legacy Integration.
+ 
+ 
+
+TMon V3
+
+Epics
+
+1. Alert Management 
+	The generation of alert based on different kind of SLA.
+	The GUI dashboards to manage alerts.
+	The link to the legacy part of the monitoring system.
+
+2. Reliability management 
+	Clustering features
+	Automatic packaging and deployement
+	Alerting of platform misusage and performance
+	
+3. User Management 
+	CRUD operation on users
+	Mapping between dashboards and roles
+	Mappling between features and roles
+	
+4. Capacity Management 
+	The computation of agregated metrics.
+	The generation of metric based on events.
+
+Elastic Search - A bried introduction
+	
+Elastic Search is Lucene based, scalable, full-text search engine and a data analysis tool. ElasticSearch is powerful and flexible, and being real-time and distributed are some of its biggest advantages. 
+
+Full-Text Search
+When the data stored in a database grows, speed/performance problems occur in query operations that are performed on the data. To remedy this, a method of indexing and cataloging the words in the text fields has been adopted. In this way, it is shown that databases respond faster and show better performance, even when working with large-scale data. Multi-language support of ElasticSearch provides powerful full-text search capabilities such as a powerful query language and auto-completion. 
+
+Index
+ElasticSearch is a document-oriented search engine. Each record in ElasticSearch is a structured JSON document. In other words, data that is sent to ElasticSearch for indexing is a JSON document. All fields of the documents are indexed by default and can be used in a single query. ElasticSearch indices, compared to database management systems, may be considered databases. As a database is a collection of regular information, ElasticSearch indices are collections of structured JSON documents. 
+
+Type
+Types can be considered tables, again compared to database management systems. Indices may contain one or more types. 
+
+Mapping
+Mapping is the process of defining how a document should be mapped to the search engine. Types are created according to the mapping information. ElasticSearch creates mapping automatically (explicit mapping) based on the data sent (for example, string, integer, double, boolean). You can override the default mapping by defining a new mapping. 
+
+RESTful API
+ElasticSearch is driven by RESTful API. Almost every action can be performed with RESTful API by using JSON through HTTP.
+ 
+Cluster
+ElasticSearch has been built to scale horizontally. If more capacity is needed, it is sufficient to increase the number of nodes. In this case, the cluster will reorganize itself in order to take advantage of extra hardware.
+
+The standard ElasticSearch installations have the same cluster name and, regardless of the number, find and connect to each other automatically in the same network. ElasticSearch configuration files are located in the ElasticSearchHomeDirectory/config folder. The corresponding row in the elasticsearch.yml file must be arranged for the cluster name. 
+	
+
+User can use HTTP client to talk to Elastic search using JSON as a communication language.
+
+Use chrome plugin 'sense' to send JSON request to ES
+
+http://joelabrahamsson.com/elasticsearch-101/
+
+Scala
+
+http://www.tutorialspoint.com/scala/scala_basic_syntax.htm
+
+Gatling
+What is Gatling?
+A bit of culture that can affect our health, the Gatling project takes its name and logo of the first effective machine gun combines reliability, firepower and ease supply: 
+
+The Principle designed and developed by Richard Gatling in 1861, provides the means to efficiently parallelize the necessary mechanical operations (loading, percussion, extraction, ejection) and let cool rooms and better guns, so the high rates of fire reached incommensurate with the weapons one barrel. (dixit Wikipedia ). 
+That said, you can have fun doing some similarities between this gun of the 19th century and the Gatling project:
+
+reliability: developed in Scala and running on the JVM; 
+firepower / parallelization of operations: Asynchronous HTTP Client based on Netty and the actor model with Akka; 
+ease supply: a domain specific language (DSL) clear and concise. 
+
+http://cleversoft.wordpress.com/2013/12/23/jmeter-or-gatling/
+
+https://tech.octanner.com/index.php/2013/08/29/performance-test-your-application-with-gatling/
+
+https://github.com/mohanraj-nagasamy/gatling-maven-plugin-demo
+https://github.com/excilys/gatling/wiki/First-Steps-with-Gatling
+
+
+Jenkins for CI
+
+Download the war file
+
+nohup java -jar jenkins.war > $LOGFILE 2>&1
+
+
+Logstash + Elastic Search
+
+Our Event Lifecycle
+For our initial LogStash build we're going to have the following lifecycle:
+• The LogStash agent on our remote agents collects and sends a log event to
+our central server.
+• A Redis instance receives the log event on the central server and acts as a
+buffer.
+• The LogStash agent draws the log event from our Redis instance and indexes
+it.
+• The LogStash agent sends the indexed event to ElasticSearch.
+• ElasticSearch stores and renders the event searchable.
+• The LogStash web interface queries the event from ElasticSearch.
+
+JGroups
+JGroups is a messaging framework which allows developers to create reliable messaging (one-to-one or one-to-many) applications where reliability is a deployment issue, and does not have to be implemented by the application developer.
+The most powerful feature of JGroups is its flexible protocol stack, which allows developers to adapt it to exactly match their application requirements and network characteristics.
+The benefit of this is that you only pay for what you use. By mixing and matching protocols, various differing application requirements can be satisfied.
+
+ http://devconf.cz/node/91/348
+ 
+ Q) Define SOA+CLOUD+BIGDATA ?
+ A) Super Man 
+	Details:- Man(SOA) with Super Power(CLOUD) can solve big problems(BIG DATA) is Super Man
+
+http://haproxy.1wt.eu/	
+
+
+if [type]=="alert" {
+   http {
+    content_type => "application/json"
+    format => "json"
+    http_method => "post"
+    url => "http://192.160.64.82:9880/service/alerting/create"
+    workers => 3
+
+   }
+
+5:41:35 PM: Thibaut BARRAULT-EXT/fr/socgen: service/alerting/create
+
+Testing TMon V3
+
+com.yammer.dropwizard.config.Environment: The following paths were found for the configured resources:
+
+WorkerManager
+	POST    /service/manager/compress (sgcib.tmon.worker.service.WorkerManager)
+    
+CapacityService
+	POST    /service/capacity/compute (sgcib.tmon.worker.service.CapacityService)
+    POST    /service/capacity/estimate (sgcib.tmon.worker.service.CapacityService)
+    
+	POST    /service/page/read (sgcib.tmon.worker.service.PagingService)
+
+DataService    
+	GET     /service/data/numericMappings (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/create (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/delete (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/read (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/terms (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/update (sgcib.tmon.worker.service.DataService)
+    
+DatabaseJobService
+	GET     /service/job/database/readAll (sgcib.tmon.worker.service.DatabaseJobService)
+    GET     /service/job/database/readAllId (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/create (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/delete (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/read (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/update (sgcib.tmon.worker.service.DatabaseJobService)
+    
+MetricJobService
+	GET     /service/job/metric/readAll (sgcib.tmon.worker.service.MetricJobService)
+    GET     /service/job/metric/readAllId (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/create (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/delete (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/read (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/update (sgcib.tmon.worker.service.MetricJobService)
+    
+UserService
+	POST    /service/user/checkLogin (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/create (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/createMany (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/delete (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/getAll (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/read (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/setCurrent (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/update (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/updateRole (sgcib.tmon.worker.service.UserService)
+	
+AlertService
+    GET     /service/alerting/get (sgcib.tmon.worker.service.AlertingService)
+    POST    /service/alerting/create (sgcib.tmon.worker.service.AlertingService)
+    POST    /service/alerting/read (sgcib.tmon.worker.service.AlertingService)
+	
+	
+	
+	
+	POST    /service/manager/compress (sgcib.tmon.worker.service.WorkerManager)
+    POST    /service/capacity/compute (sgcib.tmon.worker.service.CapacityService)
+    POST    /service/capacity/estimate (sgcib.tmon.worker.service.CapacityService)
+    POST    /service/page/read (sgcib.tmon.worker.service.PagingService)
+    GET     /service/data/numericMappings (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/create (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/delete (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/read (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/terms (sgcib.tmon.worker.service.DataService)
+    POST    /service/data/update (sgcib.tmon.worker.service.DataService)
+    GET     /service/job/database/readAll (sgcib.tmon.worker.service.DatabaseJobService)
+    GET     /service/job/database/readAllId (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/create (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/delete (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/read (sgcib.tmon.worker.service.DatabaseJobService)
+    POST    /service/job/database/update (sgcib.tmon.worker.service.DatabaseJobService)
+    GET     /service/job/metric/readAll (sgcib.tmon.worker.service.MetricJobService)
+    GET     /service/job/metric/readAllId (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/create (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/delete (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/read (sgcib.tmon.worker.service.MetricJobService)
+    POST    /service/job/metric/update (sgcib.tmon.worker.service.MetricJobService)
+    GET     /service/job/clean/readAll (sgcib.tmon.worker.service.CleanJobService)
+    GET     /service/job/clean/readAllId (sgcib.tmon.worker.service.CleanJobService)
+    POST    /service/job/clean/create (sgcib.tmon.worker.service.CleanJobService)
+    POST    /service/job/clean/delete (sgcib.tmon.worker.service.CleanJobService)
+    POST    /service/job/clean/read (sgcib.tmon.worker.service.CleanJobService)
+    POST    /service/job/clean/update (sgcib.tmon.worker.service.CleanJobService)
+    GET     /service/user/getAll (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/checkLogin (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/create (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/delete (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/read (sgcib.tmon.worker.service.UserService)
+    POST    /service/user/update (sgcib.tmon.worker.service.UserService)
+
+http://srvcldtmnd002:9880/tmon/index.html#/overview
+
+http://srvcldtmnd002:9880/service/user/getAll
+
+curl http://srvcldtmnd002:9880/service/user/getAll
+
+curl   -L http://srvcldtmnd002:9880/service/user/getAll
+
+C:\Users\jbonu082213>curl -d j_username=tmon.admin@sgcib.com -d j_password=tmon.admin -L http://srvcldtmnd002:9880/service/user/getAll
+
+curl -D- -u admin:admin -X POST -H "Content-Type: application/json" --data '{"jql":"project = QA","startAt":0,"maxResults":2,"fields":["id","key"]}' "http://kelpie9:8081/rest/api/2/search"
+
+
+TIPs
+
+How to download file using curl command
+curl -k -O https://repo.nexus.org/nexus/content/repositories/central/update.zip
+-k ignore security
+-O download as file 
+
+Set JAVA env in linux machine
+#!/usr/bin/env bash
+echo "**************** SET JAVA ENV JKD 7 X64 **********************"
+export JAVA_HOME=/home/user/data/tools/jdk1.7.0_25
+export PATH=$PATH:$JAVA_HOME/bin
+
+Start Logstash as agent
+
+
+Elastic search on linux
+ tar zxf elasticsearch-1.1.0.tar.gz
+ cd elasticsearch-1.1.0/bin
+ ./elasticsearch start
+ 
+
+
+curl -XPUT "http://localhost:9880/service/alerting/create" -d'
+{
+    "key":"5253652689",
+    "type":"alert",
+	"level":"3",
+	"userMessage":"UserMessage",
+	"technicalMessage":"TechnicalMessage",
+	"origin":"TMonV3"
+    }'
+	
+	
+working url
+
+http://localhost:9880/service/alerting/create
+Content-Type: application/json
+{
+"level":"2",
+"type":"3",
+"userMessage":"UserMessage1", 
+"technicalMessage":"TechnicalMessage1", 
+"origin":"AlertingStoreTest"
+}
+
+Stress testing is a type of performance testing focused on determining an application’s robustness, availability, and reliability under extreme conditions. 
+
+Maximum load a system can serve(Peak).
+Find bottlenecks of the live system during a peak.
+
+Connecting to ms sql from java using c3p0 connection pool: Simple way.
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+package jtdsmssqltest;
+
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+public class Testconnection {
+
+	public ComboPooledDataSource pool;
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		try {
+//			// import driver
+//			Class.forName("net.sourceforge.jtds.jdbc.Driver");
+//			// connection to database
+//			Connection conn = DriverManager
+//					.getConnection("jdbc:jtds:sqlserver://server01:1433/schema1;user=mssqluser;password=mssqlpwd");
+//			Statement state = conn.createStatement();
+//			String sql = "select * from dbo.Countries";
+//			ResultSet result = state.executeQuery(sql);
+//			while (result.next()) {
+//				// System.out.println(result.getString("Name")+"\t"+result.getString("CountryCode"));
+//				System.out.println(result.getString("tablename"));
+//			}
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+		String driver = "net.sourceforge.jtds.jdbc.Driver";
+		String url = "jdbc:jtds:sqlserver://server01:1433/schema1";
+		String user = "mssqluser";
+		String pwd = "mssqlpwd";
+		int minPoolSize = 1;
+		int incrementSize = 1;
+		int maxPoolSize = 5;
+		int acquireRetryAttempts = 100;
+		int acquireRetryDelay = 1000;
+
+		String sqlStmt = "select * from Countries";
+		
+		Testconnection tc = new Testconnection();
+		tc.pool = new ComboPooledDataSource();
+		try {
+			tc.pool.setDriverClass(driver);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		tc.pool.setJdbcUrl(url);
+		tc.pool.setUser(user);
+		tc.pool.setPassword(pwd);
+		tc.pool.setInitialPoolSize(minPoolSize);
+		tc.pool.setMinPoolSize(minPoolSize);
+		tc.pool.setAcquireIncrement(incrementSize);
+		tc.pool.setMaxPoolSize(maxPoolSize);
+		tc.pool.setAcquireRetryAttempts(acquireRetryAttempts);
+		tc.pool.setAcquireRetryDelay(acquireRetryDelay);
+
+		Connection connection = null;
+		try {
+			connection = tc.pool.getConnection();
+			Statement ps = connection.createStatement();			
+			ResultSet result = ps.executeQuery(sqlStmt);
+			
+			while (result.next()) {
+				// System.out.println(result.getString("Name")+"\t"+result.getString("CountryCode"));
+				System.out.println(result.getString("tablename"));
+			}		
+						
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Logstash
+Features:
+---------
+It can monitor the files in realtime doing tail -0F way in Unix.
+
+
+
+GNU Split command:
+D:\Logtailer>split --bytes=262144000 ssl_request_log.2014-04-06 ssl_request_log_
+
+
+The aim of the second course is to teach the principles of reactive programming. Reactive programming is an emerging discipline which combines 
+concurrency and event-based and asynchronous systems. It is essential for writing any kind of web-service or distributed system and is also at 
+the core of many high-performance concurrent systems. Reactive programming can be seen as a natural extension of higher-order functional programming 
+to concurrent systems that deal with distributed state by coordinating and orchestrating asynchronous data streams exchanged by actors.
+
+
+http://www.ibm.com/developerworks/java/library/j-scala04109/index.html
+
+
+Elastic Search Notes form Definitive guide:
+
+Elasticsearch is much more than just Lucene and much more than “just” full text search. It is also:
+
+a distributed real-time document store where every field is indexed and searchable
+a distributed search engine with real-time analytics
+capable of scaling to hundreds of servers and petabytes of structured and unstructured data.
+
+Standalone server and talks using REST API.
+
+Clusters and nodes
+
+A node is a running instance of Elasticsearch. A cluster is a group of nodes with the same cluster.name that are working together to share data and to provide failover and scale, although a single node can form a cluster all by itself.
+
+Database structure:
+-------------------
+
+Relational DB  ⇒ Databases ⇒ Tables ⇒ Rows      ⇒ Columns
+Elasticsearch  ⇒ Indices   ⇒ Types  ⇒ Documents ⇒ Fields
+
+An Elasticsearch cluster can contain multiple indices (databases), which in turn contain multiple types (tables). These types hold multiple documents (rows), and each document has multiple fields (columns).
+
+Note: The plural of index is indices or indexes.
+
+By default, every field in a document is indexed (has an inverted index) and thus is searchable.
+
+In practice, this is very easy (even though it looks like a lot of steps). We can perform all of those actions in a single command:
+     
+PUT /megacorp/employee/1
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25,
+    "about" :      "I love to go rock climbing",
+    "interests": [ "sports", "music" ]
+}
+/megacorp/employee/1 =>
+	database =megacorp
+	Table=employee	
+	rowId=1
+	
+Search:
+GET /megacorp/employee/_search
+GET /megacorp/employee/_search?q=last_name:Smith
+
+search with query dsl
+
+Query-string search is handy for ad hoc searches from the command line, but it has its limitations (see Search Lite). Elasticsearch provides a rich, flexible, query language called the Query DSL, which allows us to build much more complicated, robust queries.
+
+The DSL (Domain Specific Language) is specified using a JSON request body. We can represent the previous search for all Smith’s like so:
+
+GET /megacorp/employee/_search
+{
+    "query" : {
+        "match" : {
+            "last_name" : "smith"
+        }
+    }
+}
+
+GET /megacorp/employee/_search
+{
+    "query" : {
+        "match_phrase" : {
+            "about" : "rock climbing"
+        }
+    }
+}
+
+GET /megacorp/employee/_search
+{
+    "query" : {
+        "match_phrase" : {
+            "about" : "rock climbing"
+        }
+    },
+    "highlight": {
+        "fields" : {
+            "about" : {}
+        }
+    }
+}
+
+Analystics:
+business requirement: allow managers to run analytics over the employee directory. Elasticsearch has functionality called aggregations, which allow you to generate sophisticated analytics over your data. It is similar to GROUP BY in SQL, but much more powerful.
+
+GET /megacorp/employee/_search
+{
+  "aggs": {
+    "all_interests": {
+      "terms": { "field": "interests" }
+    }
+  }
+}
+
+life inside a cluster:
+Elasticsearch is built to be always available, and to scale with your needs. Scale can come from buying bigger servers (vertical scale or scaling up) or from buying more servers (horizontal scale or scaling out).
+
+A node is a running instance of Elasticsearch, while a cluster consists of one or more nodes with the same cluster.name that are working together to share their data and workload. As nodes are added to or removed from the cluster, the cluster reorganizes itself to spread the data evenly.
+
+One node in the cluster is elected to be the master node, which is in charge of managing cluster-wide changes like creating or deleting an index, or adding or removing a node from the cluster. 
+
+GET /_cluster/health
+
+
+http://www.kueimueu.com/
+
+Kedenchi meelenchu -> Keedu Enchi Meelu Enchu
+
+
+
+{
+_index: logstash-2014.05.21
+_type: xone
+_id: vEqp1pXCSkOyKia23-wtjw
+_version: 1
+_score: 1
+_source: {
+name: Xone
+type: Xone
+origin: data
+@timestamp: 2014-05-21T10:42:52.2418681+05:30
+correlationId: e70425d5-20f2-487a-8a90-07b9bf88cf63
+host: GB00052649D
+user: csamadde020413
+city: London
+site: [
+-0.167
+51.5
+]
+team0: LYXR
+team1: SMK
+team2: SAL
+component: XOneDesktop
+operation: TradeCaptureService.LoadTrade
+workflow: GuiStartup
+task: xone.desktop.startup.connected
+event: Sgcib.Logstash.Log4net.Events.ChronoEvent
+duration: 980
+}
+}
+
+
+
+Java byte code is a highly optimized set of instructions designed to execute in the Java Virtual Machine.
+
+Why Java ?
+• Simple
+• Secure
+• Portable
+• Object-oriented
+• Robust - reliably execute in variety of systems
+• Multithreaded
+• Architecture-neutral - Independen of OS and the changes.
+• Interpreted - 
+• High performance
+• Distributed - RMI
+• Dynamic - resolve access to objects at runtime
+
+
+Java 5 major new features
+• Generics
+• Annotations
+• Autoboxing and auto-unboxing
+• Enumerations
+• Enhanced, for-each style for loop
+• Variable-length arguments
+• Static import
+• Formatted I/O
+• Concurrency Utilities
+
+Java 5 minor new features
+
+Java 6 major features
+
+Java 6 minor features
+it does enhance the API libraries,
+add several new packages, and offer improvements to the run time. the release of Java SE 6 serves to further solidify the
+advances made by J2SE 5.
+
+• Abstraction
+• Encapsulation
+• Inheritance
+• Polymorphism
+
+What is object ?
+
+Object represent realworld 
+
+There are 2 data types in Java
+
+• Primitive Data types
+• Referece/Object data types
+
+Primitive Data types:
+byte
+short
+int
+float
+long
+double
+char 
+boolean
+
+Referece/Object data types:
+String
+
+
+
+Components in Java
+• Object
+• Class
+• Methods
+• Instance Variables
+
+Java Identifiers
+• class names
+• method names
+• variables
+
+Java Modifiers
+• Local variables
+• Class variables(static)
+• Instance variables(non-static)
+
+Java Arrays
+
+An array is a container object that holds a fixed number of values of a single type. The length of an array is established when the array is created. After creation, its length is fixed. You have seen an example of arrays already, in the main method of the "Hello World!" application. 
+
+System.arraycopy(copyFrom, 2, copyTo, 0, 7);
+java.util.Arrays.copyOfRange(copyFrom, 2, 9);
+Some other useful operations provided by methods in the java.util.Arrays class, are:
+
+Searching an array for a specific value to get the index at which it is placed (the binarySearch() method).
+Comparing two arrays to determine if they are equal or not (the equals() method).
+Filling an array to place a specific value at each index (the fill() method).
+Sorting an array into ascending order. This can be done either sequentially, using the sort() method, or concurrently, using the parallelSort() method introduced in Java SE 8. Parallel sorting of large arrays on multiprocessor systems is faster than sequential array sorting.
+
+
+
+Java Enums
+
+Java Fundamentals
+
+• Polymorphism
+
+• Inheritance - Different kinds of objects often have a certain amount in common with each other. Object-oriented programming allows classes to inherit commonly used state and behavior from other classes.
+
+• Encapsulation - Hiding internal data from the outside world, and accessing it only through publicly exposed methods is known as data encapsulation.
+
+• Abstraction - 
+
+• Classes - A class is the blueprint from which individual objects are created.
+class MyClass extends MySuperClass implements YourInterface {
+    // field, constructor, and
+    // method declarations
+}
+
+
+• Objects - Software objects are conceptually similar to real-world objects: they too consist of state and related behavior. An object stores its state in fields (variables in some programming languages) and exposes its behavior through methods (functions in some programming languages). Methods operate on an object's internal state and serve as the primary mechanism for object-to-object communication. Hiding internal state and requiring all interaction to be performed through an object's methods is known as data encapsulation — a fundamental principle of object-oriented programming.
+
+• Instance - 
+
+• Method
+
+• Message Parsing
+
+• Interface - an interface is a group of related methods with empty bodies.
+
+• Package - A package is a namespace that organizes a set of related classes and interfaces.
+
+Local variables are slightly different; the compiler never assigns a default value to an uninitialized local variable. If you cannot initialize your local variable where it is declared, make sure to assign it a value before you attempt to use it. Accessing an uninitialized local variable will result in a compile-time error.
+
+Literals
+
+You may have noticed that the new keyword isn't used when initializing a variable of a primitive type. Primitive types are special data types built into the language; they are not objects created from a class. A literal is the source code representation of a fixed value; literals are represented directly in your code without requiring computation. As shown below, it's possible to assign a literal to a variable of a primitive type:
+
+From JavaSE 7 use _ in numeric literals.
+
+Local variables are slightly different; the compiler never assigns a default value to an uninitialized local variable. If you cannot initialize your local variable where it is declared, make sure to assign it a value before you attempt to use it. Accessing an uninitialized local variable will result in a compile-time error.
+
+Java 8 new features
+
+Lamdba expressions
+Stream API
+Compact profile for smaller devices
+Security ??
+Datetime package - new package
+Util Package
+	-Parallel Array Sorting
+	-Unsigned arithematic support
+JDBC 4.2 with new features
+Networking
+-java.net.URLPermission added.
+
+Concurrency
+-new classes to java.util.concurrent, java.util.concurrent.atomic
+-methods to ConcurrentHashMap, ForkJoinPool 
+-The java.util.concurrent.locks.StampedLock class has been added to provide a capability-based lock with three modes for controlling read/write access.
+
+Operators
+Postfix -> expr++ expr--
+unary -> ++expr --expr +expr -expr ~ ! 
+multiplicative * / %
+additive + - 
+shift << >> >>>
+relational < > <= => instanceof
+equality == !=
+bitwise AND &
+bitwise exclusive OR
+bitwise inclusive OR
+logical AND
+logical OR
+ternary ? :
+assignment = += -= *= /= %= &= ^= |= <<= >>= >>>=
+
+ternary operator ?:
+
+
+Summary of Operators
+
+The following quick reference summarizes the operators supported by the Java programming language.
+
+Simple Assignment Operator
+
+=       Simple assignment operator
+Arithmetic Operators
+
++       Additive operator (also used
+        for String concatenation)
+-       Subtraction operator
+*       Multiplication operator
+/       Division operator
+%       Remainder operator
+Unary Operators
+
++       Unary plus operator; indicates
+        positive value (numbers are 
+        positive without this, however)
+-       Unary minus operator; negates
+        an expression
+++      Increment operator; increments
+        a value by 1
+--      Decrement operator; decrements
+        a value by 1
+!       Logical complement operator;
+        inverts the value of a boolean
+Equality and Relational Operators
+
+==      Equal to
+!=      Not equal to
+>       Greater than
+>=      Greater than or equal to
+<       Less than
+<=      Less than or equal to
+Conditional Operators
+
+&&      Conditional-AND
+||      Conditional-OR
+?:      Ternary (shorthand for 
+        if-then-else statement)
+Type Comparison Operator
+
+instanceof      Compares an object to 
+                a specified type 
+Bitwise and Bit Shift Operators
+
+~       Unary bitwise complement
+<<      Signed left shift
+>>      Signed right shift
+>>>     Unsigned right shift
+&       Bitwise AND
+^       Bitwise exclusive OR
+|       Bitwise inclusive OR
+
+Control Flow Statements
+
+The if-then statement is the most basic of all the control flow statements. It tells your program to execute a certain section of code only if a particular test evaluates to true. The if-then-else statement provides a secondary path of execution when an "if" clause evaluates to false. Unlike if-then and if-then-else, the switch statement allows for any number of possible execution paths. The while and do-while statements continually execute a block of statements while a particular condition is true. The difference between do-while and while is that do-while evaluates its expression at the bottom of the loop instead of the top. Therefore, the statements within the do block are always executed at least once. The for statement provides a compact way to iterate over a range of values. It has two forms, one of which was designed for looping through collections and arrays.
+
+
+Access Modifiers
+Access Levels
+Modifier   Class	Package	Subclass	World
+public	       Y	Y	Y	Y
+protected	   Y	Y	Y	N
+no modifier	   Y	Y	N	N
+private	       Y	N	N	N
+
+Note: Overloaded methods should be used sparingly, as they can make code much less readable.
+
+Constructor: A class contains constructors that are invoked to create objects from the class blueprint. 
+
+Objects:  a class provides the blueprint for objects; you create an object from a class.
+
+-Declaration: The code set in bold are all variable declarations that associate a variable name with an object type.
+-Instantiation: The new keyword is a Java operator that creates the object.
+-Initialization: The new operator is followed by a call to a constructor, which initializes the new object.
+
+An object is eligible for garbage collection when there are no more references to that object. References that are held in a variable are usually dropped when the variable goes out of scope. Or, you can explicitly drop an object reference by setting the variable to the special value null
+
+This keyword is a reference to the current object.
+
+
+
+
+
+	
+ 
+
+
+
+
+
