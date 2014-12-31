@@ -1,0 +1,905 @@
+ElasticSearch Concepts
+
+Distributed real-time storage, search and analytics engine.
+Schema free
+No prior data declaration required, but possible, to optimize
+Document oriented (JSON)
+Real time: 
+Acquisition: data is indexed in real time
+Analytics: explore, understand your data
+High availability: Shards and replicas auto balanced
+Command example:
+Create index : curl -XPOST localhost:9200/logstash-2014.09.22/
+Delete existant index: curl -XDELETE localhost:9200/logstash-2014.09.22/
+Bulk insert : curl -s -XPUT localhost:9200/_bulk --data-binary @bulk.json
+Create mapping :  curl -XPOST localhost:9200/logstash-2014.09.22/databaseData/_mapping –d
+Search: curl -XGET 'localhost:9200/library/book/_search?q=term1:criteria1&pretty=true' 
+
+
+
+Kibana Concepts
+
+Built with AngularJS:
+JavaScript MVC framework for client-side rich application
+Developed and maintained by Google
+JS directly queries ElasticSearch
+Create nice graphs based on documents stored in elasticsearch.
+View and aggregate different forms of data from ElasticSearch.
+Tow types of aggregations: bucketing and metric
+Bucketing aggregations produce a list of buckets, each one with a set of documents that belong to it (e.g., terms, range, date range, histogram). 
+Metric aggregations keep track and compute metrics over a set of documents (e.g., min, max, sum, avg, stats).
+
+
+
+REM Cleanup files for Windows XP
+ 
+REM Cleanup cookies for current user
+del "%USERPROFILE%"\cookies\*.txt
+ 
+REM Cleanup temp directory for current user
+del /s /f /q "%USERPROFILE%"\locals~1\temp\*
+rmdir /s /q "%USERPROFILE%"\locals~1\temp
+mkdir "%USERPROFILE%"\locals~1\Temp
+ 
+REM Cleanup temporary internet file directories for current user
+del /s /f /q "%USERPROFILE%"\locals~1\tempor~1\*
+del /s /f /q /a:s "%USERPROFILE%"\locals~1\tempor~1\*
+del /s /f /q /a:h "%USERPROFILE%"\locals~1\tempor~1\*
+del /s /f /q /a:r "%USERPROFILE%"\locals~1\tempor~1\*
+rmdir /s /q "%USERPROFILE%"\locals~1\tempor~1
+ 
+REM Cleanup history for current user
+del /s /f /q "%USERPROFILE%"\locals~1\history\*
+ 
+REM Cleanup Windows prefetch
+del /s /f /q "%SystemRoot%"\prefetch\*
+ 
+REM Cleanup Windows minidump
+del /s /f /q "%SystemRoot%"\Minidump\*
+ 
+REM Cleanup Windows temp
+del /s /f /q "%SystemRoot%"\temp\*
+rmdir /s /q "%SystemRoot%"\temp\
+mkdir "%SystemRoot%"\Temp
+ 
+REM Cleanup recent shortcuts for current user
+del /s /f /q "%USERPROFILE%"\recent\*
+ 
+REM Cleanup environment varable set temp storage
+del /s /f /q "%TEMP%"
+ 
+REM Cleanup environment varable set tmp storage
+del /s /f /q "%TMP%"
+ 
+REM Cleanup c:\temp
+del /s /f /q c:\temp\*
+rmdir /s /q c:\temp\
+mkdir c:\Temp
+ 
+REM Cleanup Recycle Bin storage areas
+del /s /f /q c:\Recycled\*
+del /s /f /q c:\Recycler\*
+
+
+D:\cosiv3\tmonv3\agent\config\test>cat *.config
+filter {
+        if [message] =~ "(.TMON_Start_No receiver has been found.)"  {
+
+                if [type] == "SafirAlert" {
+                        grok {
+                                match => ["message", ".*TMON_Start_(?<userMessage>.*) Aler
+tID : (?<alert_id>[0-9A-F]{2,10}).*Parameters : (?<parameters>.*)TMON_End"]
+                        }
+                        mutate {
+                                replace => [ "name", "logsAlert"]
+                                add_field => [ "technicalMessage", "%{message}"]
+
+                                add_field => ["messagetype","noreceiverfound"]
+                                add_field => ["level",  "3"]
+                                add_field => ["origin", "%{host}" ]
+                                add_field => ["status", "Opened" ]
+                                add_field => ["priority", "Critical" ]
+                                add_field => ["brokenSla", "log Error" ]
+                        }
+                } else {
+                        drop {}
+                }
+        } else if [message] =~ "(.TMON_Start_Alert creation exceeds 2 min.)"  {
+
+                if [type] == "SafirAlert" {
+                        grok {
+                                match => ["message", ".*TMON_Start_(?<userMessage>.*) Aler
+tID : (?<alert_id>[0-9A-F]{2,10}).*Parameters : (?<parameters>.*)TMON_End"]
+                        }
+                        mutate {
+                                replace => [ "name", "logsAlert"]
+                                add_field => [ "technicalMessage", "%{message}"]
+
+                                add_field => ["messagetype","alertcreationexceeds2min"]
+                                add_field => ["level",  "3"]
+                                add_field => ["origin", "%{host}" ]
+                                add_field => ["status", "Opened" ]
+                                add_field => ["priority", "Critical" ]
+                                add_field => ["brokenSla", "log Error" ]
+                        }
+                } else {
+                        drop {}
+                }
+        } else if [message] =~ "(.TMON_Start_Email Sending failed.)"  {
+
+                if [type] == "SafirAlert" {
+                        grok {
+                                match => ["message", ".*TMON_Start_(?<userMessage>.*) ToAd
+dress: (?<toAddress>.*) Subject: (?<subject>.*)TMON_End"]
+                        }
+                        mutate {
+                                replace => [ "name", "logsAlert"]
+                                add_field => [ "technicalMessage", "%{message}"]
+
+                                add_field => ["messagetype","emailsendfailed"]
+                                add_field => ["level",  "3"]
+                                add_field => ["origin", "%{host}" ]
+                                add_field => ["status", "Opened" ]
+                                add_field => ["priority", "Critical" ]
+                                add_field => ["brokenSla", "log Error" ]
+                        }
+                } else {
+                        drop {}
+                }
+        } else {
+                        drop {}
+        }
+
+ }
+
+input {
+ file {
+    path => ["D:\cosiv3\tmonv3\application\safirlogfiles\srvparmut11\logs\Appli.log"]
+        tags => ["srvparmut11"]
+        sincedb_path => ["D:\cosiv3\tmonv3\application\safirlogfiles\srvparmut11\logs\Appl
+i.idx"]
+    type => "SafirAlert"
+        }
+}output {
+        stdout {
+                codec => rubydebug
+        }
+   elasticsearch {
+    host => "176.6.66.22"
+        index_type => "alert"
+    cluster =>"cosiCluster"
+    protocol =>  "transport"
+    workers => "5"
+    }
+if [type]=="SafirAlert" {
+   http {
+    content_type => "application/json"
+    format => "json"
+    http_method => "post"
+    url => "http://localhost:9880/service/alerting/create"
+    workers => 3
+        headers => ["Cookie","token=%22aee31157-75a9-4c40-a7ec-0da2bab6f25d%22"]
+   }
+}
+
+
+}
+
+D:\cosiv3\tmonv3\agent\config\test>
+
+
+
+if wscript.arguments(0)="year" then
+wscript.echo eval(Year(date))
+end if
+if wscript.arguments(0)="mois" then
+wscript.echo eval(Month(date))
+end if
+if wscript.arguments(0)="day" then
+wscript.echo eval(Day(date))
+
+end if
+
+The GBIS Developer Getting Started Guide
+I didn't keep track of the time I spent installing and configuring my tools back in the day to work with the proxy and the developer account limitations. Over the years, I found better tools and discovered useful tricks that other developers might find useful today. I hope this will be the start of something where we can all share what makes us what we are at heart : programmers. -- Gilles, 25 aug 2014.
+Please don't hesitate to fork and submit Pull Requests to enhance this guide, you can also watch this repo for changes.
+
+Know your way around
+
+GBIS
+
+There are a few links which may help you discover your environment and the goal of your adventure.
+
+ITEC Mission, find all about our plans to build a secret space station.
+Innovative vision of Trading in 2025, look Ma', I'm talking to the computer.
+Continuous Delivery, Digital Transformation, Great Place to Work, now you can come out and tell everyone you've been doing TDD during all these years.
+ITEC Passports. Papers, Please (private joke for gamers).
+ITEC Organisation Charts, next time you'll know you just shared the same table at the restaurant with your CIO.
+MARK Organisation Chart KYC !
+Financial Dictionary, say what's a Dark Pool again ?
+GBIS Fundamentals (Eliot Wiki), an excellent introduction to the various concepts you'll have to use everyday.
+Combat Backpack
+
+Equipment
+
+Don't forget your backpack before adventuring !
+
+The minimum stuff you should install from AppsOnDemand (win key then type AppsOnDemand)
+
+Firefox or Chrome, because IE8 can't display most modern websites, notably GitHub
+Sametime to communicate with teammates and other people by chat (challenge : find the option to launch it at Windows startup)
+Telisca ClickNDial to launch a phone call from your desktop
+Freeware 7Zip-X64, which I find less bloated than WinZip which comes with the NDG master
+GadWin PrintScreen, to take screenshots
+Jive for Outlook to create discussions from emails and see your correspondent activity (requires access to Jive currently in closed beta inside GBIS)
+Get extended rights
+
+Normally you should have "Extended Rights" on your machine which allows you to use packages that require those like Visual Studio. Send this email to 35000 asking for extended rights with the MA of your machine and add your manager in /cc.
+
+Hi,
+
+For my day to day activity, I require extended rights
+e.g. I'll have to :
+- Debug with Visual Studio,  
+- Profile applications running on my machine 
+- Create COM components
+
+My machine's MA is : MAxxxxxx
+Configure the proxy
+
+The first thing you should do is configure the proxy at the system level. Add the 3 environment variables underneath in "Control Panel\System and Security\System\Advanced system settings\Environment Variables". Be aware that git-bash doesn't automatically inherit Windows system level environment variables so you have to put them in your personal account ~/.profile file.
+
+Put the following lines in you cmd script if you don't have admin rights :
+
+SET HTTP_PROXY=http://firstname.name:internetpassword@proxy.int.world.socgen:8080
+SET HTTPS_PROXY=http://firstname.name:internetpassword@proxy.int.world.socgen:8080
+SET NO_PROXY=.socgen
+Put this in your ~/.profile :
+
+export http_proxy='http://firstname.name:internetpassword@proxy.int.world.socgen:8080'
+export https_proxy='http://firstname.name:internetpassword@proxy.int.world.socgen:8080'
+export no_proxy=.socgen
+Remap Caps Lock to CTRL
+
+If you are a fast typer or a know-all-the-shortcuts guy, you should know that you can remap the Caps Lock key as CTRL to avoid pinky.
+
+Basic Gear
+
+Equipment
+
+First, you should install a few things from the ITEC-Toolbox. I always unselect everything and I pick only the following :
+
+Msysgit : because Git rocks, and also because we now have our own GitHub Enterprise. Learn Git if you don't use it already.
+
+Gnuwin32 : lots of useful unix tools which you can use either from cmd or from gitbash which comes with msysgit
+
+ProcessExplorer : a very good replacement for the built-in process manager
+
+Notepad++ : a decent text editor
+
+The Continuous Delivery platform is composed with those tools :
+
+Jira 6.2 Agile
+
+GitHub Enterprise. We have 300 seats only, reserved for Continuous Delivery apps, contact ARC/CoC to enlist on the migration roadmap.
+
+SonarQube
+
+Additional software are listed on itbox
+
+Java specced
+
+Now, if you're a Java developer, you can also install these packages from the ITEC-Toolbox :
+
+JDK 7 and 8
+
+they come with the SGCIB certificates, which avoids patching your own JDKs to access internal services which are only reachable with https (jira, nexus etc...)
+
+Maven 3
+
+Eclipse (wait, DON'T. You can have something better, go on reading... Yes, strong opinions FTW !)
+
+.NET specced
+
+If you're a .NET developer, you must use Visual Studio and Resharper.
+
+Hi, 
+
+I need to have the latest versions of Visual Studio and Resharper installed. 
+
+CA : <CA number>
+TBS : <Pnnnnn or Snnnnn)>
+MA : <machine number, type hostname at the command prompt>
+An Itrack case will then be created and someone will call you to ask if you're sure you want to BUY a license Visual Studio. Answer YES because in reality, a BUY will not be performed, rather the licence count tracked by ITEC/COO will be increased for your RC (COO contact is Anthony FERRE). Do not hesitate to call 35000 regularly (once a week at least).
+
+The lastest versions available today are Visual Studio 2013 and Resharper 8. SGCIB will have very soon a group license for Resharper and hence a License Server which will allow to use any version of Resharper and get upgrades for free.
+
+FYI, we are still looking into how Visual Studio 2013 can be packaged by GTS. In the meantime, architects and senior developers can get an MSDN account to download and install VS 2013.
+
+SQL specced
+
+If you have to fiddle with SQL databases, you can either use DBVisualizer Free, Oracle SQL Developer or MS SQL Server Management Studio if you use MS-SQL (Someone told me SG has a server license for this one, to be confirmed).
+To manage the datamodel and dataset changes in an automatically deployable way, you may give liquibase a try.
+
+Advanced Gear
+
+Equipment
+
+Now if you ask me, the best tools out there are in the following list. Note that none of these tools are available in a packaged way by support team. I've been preparing during the last couple of week packaging requests to GTS to make most of them available through AppsOnDemand.
+
+IntelliJ Ultimate Edition. It's the best JVM-languages IDE whatsoever, and yes I know Vim AND Emacs. Also I won't go into details about why it beats Eclipse hands down for anything. If you're curious there are plenty of articles over the internet. Setup the proxy by invoking the settings dialog, type proxy in the search field on the top left. Then fill the hostname, port and user/password fields. You'll be able to download plugins which are bundled as jars. Those packaged as zip will be forbidden unless download rights have been granted to you by 35000 (PYX required). Also add socgen to the 'No Proxy For' field so you'll be able to use things like the Atlassian plugin and connect to the on-premise SGCIB Jira instance.
+
+Sublime Text version 2 or 3 (beta). It's the best -modern- developer text editor, with a lot of powerful plugins. Install Package Control then edit the package control user settings (Preferences -> Package Settings -> Package Control -> Settings - User) and add those keys :
+
+{
+"proxy_username": "<firstname.name>",
+"proxy_password": "<internetpassword>"
+}
+Now, provided you've set the proxy system variable (see top of this page), ST should be able to list the available packages (ctrl-shift-P, type Package Install). If not, you should probably also set the http_proxy and/or https_proxy keys as well.
+
+YourKit It's the best JVM profiler, period.
+
+DBVisualizer Pro which has a helluva lot more features than the free one. Get this gem if you spend most of your time dealing with databases.
+
+ConEmu. It's a very nice Windows console window enhancement. It was created as a companion to FarManager then it outgrew the original goal. Read the praising reviews by many renowned developers (including Scott Hanselman, Microsoft developer & Stackoverflow co-founder). Best of all, it's open source. A valuable alternative is PowerCMD but it's closed source.
+
+Ex : How to add GitBash to ConEmu
+
+Far Manager. It's a program for managing files and archives in Windows operating systems. It goes along very well with ConEmu which is in this list too.
+
+Clink. Clink combines the native Windows shell cmd.exe with the powerful command line editing features of the GNU Readline library, which provides rich completion, history, and line-editing capabilities. Readline is best known for its use in the well-known Unix shell Bash, the standard shell for Mac OS X and many Linux distributions.
+
+Launchy, a launcher a la Spotlight or Alfred
+
+Baretail, a free real-time log file monitoring tool (as 'tail -f' unix command with highlights)
+
+Baregrep, a free file finding and text searching tool
+
+Acquire Knowledge
+
+Book of Knowledge
+
+You will learn a lot by reading books, much more than you will discover by yourself for sure.
+
+Here's a short selection :
+
+SICP, also know as the "Wizard Book", written by Gerald Jay Sussman and Jay Habelson. It's been used for decades to teach programming at MIT. Read it if you want to truly understand what are the fundamentals of programming and become a much better programmer.
+Some classics like Code Complete, Refactoring and Design Patterns teach you the effective working habits and the painstaking details of the trade. Others, like Peopleware, Psychology of Computer Programming and The Mythical Man-Month delve into the psychosocial aspects of software development. Numerous others deal with algorithms. These books all have their place. SICP, however, is in a different league. It is a book that will enlighten you. It will evoke in you a passion for writing beautiful programs. Moreover, it will teach you to recognize and appreciate that very beauty. It will leave you with a state of awe and an unquenchable thirst to learn more. Other books may make you a better programmer; this book will make you a programmer.
+Clean Code, by Robert C. Martin aka Uncle Bob. His Clean Coders video serie is also a must-watch.
+
+Specification by Example, by Gojko Adzic. This book which granted the Jolt Award in 2012, will teach you how to write the 'right' software.
+
+You'll find many more on this StackOverflow question : What is the single most influential book every programmer should read ?
+
+Learn New Tricks
+
+Sorceress
+
+Configuration under Version Control
+
+It's a good idea to keep your dotfiles under version control. It's very useful if you're an Emacs or Vim user for example. Create a 'dotfiles' repo on www.github.com and create a subdirectory for each tool. Then you can create a symlink to this repo (runas administrator required):
+
+mklink /D c:\Users\gphilip\.emacs.d c:\Users\gphilip\dotfiles\emacs.d
+symbolic link created for c:\Users\gphilip\.emacs.d <<===>> c:\Users\gphilip\dotfiles\emacs.d
+Shortcuts
+
+In windows 7, there are a handful of super useful shortcuts. For example try win + UP and win + DOWN inside your favorite browser. Pretty cool hey ?
+
+Here's my favorites :
+
+Shortcut	Context	Effect
+shift-right-click	File in Windows Explorer	Adds Copy as Path menu item
+win-up	Any window	Maximize window
+win-down	Any window	Restore or minimizes window
+shift-win-left	Any window	Move window to the far left
+shift-win-right	Any window	Dock window to the far right
+ctrl-shift-esc	Any window	Launch Task Manager
+alt-up	Windows Explorer	Goes up a folder level
+ctrl-shift-N	Windows Explorer	Creates a new folder
+alt-D	Windows Explorer	Focus the adress bar
+shift-alt-up	Powerpoint, Word and Outlook	Moves text/bullet at cursor up
+shift-alt-down	Powerpoint, Word and Outlook	Moves text/bullet at cursor down
+ctrl-shift-L	Powerpoint, Word and Outlook	switches on/off bullets at current line
+shift-alt-right	Powerpoint, Word and Outlook	indent bullets
+shift-alt-left	Powerpoint, Word and Outlook	unindent bullets
+If you want more, here's an amazing list of Windows 7 shortcuts.
+
+Languages
+
+Sometimes the regular, day-to-day tools come short for doing specific stuff. These tools enable you do quickly prototype or write less complex code.
+
+Clojure & ClojureScript Clojure and ClojureScript are now my default languages. Check out my Getting Started Guide for Clojure :
+
+Node.js. Javascript is everywhere nowadays. Node is a platform built on V8 which allows you to run javascript outside the browser. Here's how you configure the proxy :
+
+npm config set proxy http://<firstname.name>:<internetpwd>@proxy.fr.world.socgen:8080
+Sometimes you'll have to use mirrors to install stuff like phantomjs :
+
+PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install phantomjs
+Ruby. First install Ruby from the ITEC-Toolbox (see above). Then you have to use an unblocked proxy as the gem forge. The following command works on my computer :
+
+gem sources -r http://gems.rubyforge.org
+gem sources -a http://production.cf.rubygems.org
+gem install compass
+Note that to install the Jekyll gem you'll need to install Ruby 1.9.2+ and the Ruby DevKit. There are additional details here : Run Jekyll on Windows. Note that there's a portable version which could save you the hassle of installing and configuring all the above if you'd prefer to start writing your blog in couple minutes (I didn't test it) : https://github.com/madhur/PortableJekyll. Note that our GitHub Enterprise is only compatible with jekyll 2.2.0 so you have to use declare this in your Gemfile :
+
+gem 'jekyll','2.2.0'
+and use
+
+bundle exec jekyll new myblog
+to create your blog.
+
+Things you can't use here
+
+Here are a few things that can't be used mainly due to proxy restrictions :
+
+Chocolatey. It's a very nice and promising package manager for Windows (a la Homebrew for Mac) which boasts more than 2000 packages. Actually, if you've got extended rights, you can install it but further down the road, you can't download any packages, the S3 curse strikes again !
+Meet Friends
+
+Party
+
+The more, the merrier
+To discuss about developer stuff, join SGCommunities, there are a lot of good discussion groups focusing on development :
+
+Continuous Delivery
+Behaviour Driven Develoment (BDD)
+Clean Code & TDD
+Pragmatic Architecture
+Domain-Driven Design (DDD)
+Functional Programming
+Infrastructure as Code
+Jira
+Sonar
+HTML 5
+Git
+Useful mailing lists :
+------------------------------------------------------------------------------------
+PAR-Itec-Arc-Coc-Developmentfactory : contact them for everything related to the Continuous Delivery platform (software factories, Infra as Code etc...)
+
+	Main requirement	Task Details	Release Status	Testing UAT	JIRA ticket	Status	Requirement / Issue	TMon V2/V3	Blockers for TMon team	Release Version / Milestone 	Priority	Ref	Workload			Dependency	Else pers	Who	29-Sep
+1	Mainview	Infra view 	DEV - UAT				Requirement	V2				1	1	0	FALSE	10/16-18/22/24-26/	0	BLR	
+
+
+
+--------------------------------------------------------------------------------------
+
+														
+														
+					Ref	Prio	Change ?	Who	Analysis	Fix	Date delivery	Status	Comment	
+	CC discrepancies													
+		Between CBL and SVL												
+			TCP		1	1		BMO	17-Dec		19-Dec		Filtering : Meeting to organise	
+			NAB		2	1		BMO	17-Dec		19-Dec		Filtering : 	
+														
+	CC : None : Check whether this is normal				3	6		Rajeev			16-Dec		4949 to check	
+														
+	Alerts discrepancies													
+		Between SVL & SFR : SFR tab: to turn red and report			4	2		Rajeev/ARC	17-Dec	17-Dec	18-Dec			
+		VIP Tab												
+			CBL/VIP	Change name (CBL + count)	5	2		Janardhan		18-Dec	19-Dec			
+			SVL/VIP	bring data VIP	6	2		Janardhan		18-Dec	19-Dec			
+			SFR/VIP	Bleu if 0; red and report + Data	7	2		Janardhan		18-Dec	19-Dec			
+			VIP data base : pointing right?		8	2		Janardhan		18-Dec	19-Dec			
+														
+	Update of CTW : directly their info?				22	5		ARC to update => KT + BAU with CTW team			18-Dec		KT to be provided 19/12	
+														
+	OK becomes Pre-sla breach (check NAB)? 				23	5		ARC to check			19-Dec		Tmon analysis L134 column J and AG	
+														
+	No SLA indicated in the control area(CBL SLA control)				24	8		CBL team			19-Dec			
+														
+	thresholds in Safir (shared disk with pic activity :Orange?)				25	5		SFR team => check on the analysis			17-Dec			
+														
+	Get data on Nr of Rows per file/control + history : Kibana?				26	6							Make sure its going to be done in last week dec	
+														
+	DR 													
+		DR Server set-up			27	7							to be checked	
+		DR Organisation and roles			28	7								
+														
+	Doc centric controls :													
+		ETNC (specific : only in CBL)			19	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		PXY			20	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		DEL			21	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		…	svl to say					CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		…						CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		…												
+														
+	Blue in Tmon (existing but no data for tmon to interpret ) 													
+		Daily												
+			PXY		9	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PS7		10	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			DEL		11	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			Fatca		12	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			DDC		13	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			BTR		14	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	19:00 => always blue, no sources
+														
+		Monthly												
+													BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+													BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+		Quarterly												
+			ETNC		15	3		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+														
+														
+	Not in Tmon new controls/items on the chain													
+		Daily												
+			OMPIA		16	4		CBL/SVL					waiting funct-go	
+			AM1		17	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+														
+		Monthly												
+			PS10		18	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+														
+		Quarterly												
+														
+	Consolidated Sources 													
+			BFE		29	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			GNW		30	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			BMS		31	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PS10		32	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			DEL		33	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			ETNC		34	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			Fatca		35	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			CLR		36	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+														
+	No sources (sometime always, sometime sometime only!)													
+			BTR		37	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			DDC		38	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			ETNC		39	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			GOP		40	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			LIP		41	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			MAM		42	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			MKP1		43	4		BMO	Need to challenge				BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			MKP6		44	4		BMO	Need to challenge				BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			MKP11		45	4		BMO	Need to challenge				BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			OMP IA		46	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PS7		47	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PXY Amer		48	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PXY Asia		49	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			PXY Eur		50	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+			VSS Loanet		51	4		CBL/SVL					BMO Sends invite CBL/SVL Suresh / Senthil - Rajzeev	
+														
+	MKP :=>1 control				52	4		Nop, need different for efficiant follow-up						
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Business activity monitoring:
+
+Goals
+Monitor key objectives
+Anticipate operational risks or incidents
+Reduce latency between material events and action
+Approach
+Update real-time dashboard
+Issue context-rich alerts
+Link to BI predictive and historical reporting and analysis
+Manage incident life cycles
+
+Examples:
+Process monitoring
+	Model 
+	Construct
+	Execute
+	Monitor
+Unstructured Data
+Situational Awareness
+
+Pattern Matching(complex event processing)
+	Fraud/gaming
+	Hot prospect
+	Customer chum
+Track and Trace
+	Monitor metrics, 
+	sequence stitching, 
+	alert on anomalies, 
+	drill down to detail records
+	Judgement(fine or penality)
+Comparision between 
+	prediction and 
+	reality
+	
+Complex Event Processing Introduction
+	Provide a technology to detect various business conditions by monitoring 
+	 a flow of events and recognizing patterns as they occur
+	Aggregate and correlate these events into higher level “business events” 
+	 that can be used to trigger business process to handle the various 
+	 detected conditions
+	
+Anatomy Of Complex Event Processing
+Ability to recognize event patterns
+Ability to aggregate event patterns into higher level event structures
+Ability to correlate / match events to business objects
+Ability to process and effect / drive  business object state
+Ability to model process / state based timing expectations ie timeouts / lack of event support
+
+CEP Applications:
+Supply Chain Event Monitoring (SCEM)
+Monitor processes from multiple perspectives ie (Cost, Availability, and location) and ensure that process execute as expected and with in expected timeframes
+SLA Management
+Provide a means to proactively manage, identify, and proactively resolve exceptions on  processes that effect service level agreements 
+Score Carding / Performance Monitoring
+Provide a platform for measuring process execution statistics over time
+
+Proposed Project
+Use Business Events to Monitor Loads moving through a SIROCCO-DTCC chain
+Define states, timeouts and such to monitor large volumes of loads on a daily basis.  The goal would be to identify loads that are running behind schedule
+Define some basic resolution strategies in BW that BE can kick off when a exception condition is detected.
+Use BE to manage and monitor Alert Conditions, and provide escalation logic to ensure that Alert Conditions are eventually cleared and dealt with.
+
+Concept Model
+Objects
+ Trade Concept
+Events
+To DTCC Event
+From DTCC Event
+Alert Event
+State Machine
+Trade State machine
+
+
+
+
+----------------
+Monitoring - arc net
+
+Application Monitoring  
+Owner  ITEC/ARC Emmanuel Marchiset  
+Publication Date  December 2008  
+Keywords  monitoring , bsm , application monitoring , tmon , gps  
+SG Group related documents    
+
+TECHNOLOGY OVERVIEW AND CONTEXT
+Monitoring solutions provide features to monitor the health and availability of an IT system in a real time or deferred fashion. This mainly includes capabilities to collect, process and historize indicators (kpi's) and to provide end users with dasboards, alerts and reports.
+
+There are different types of Monitoring mainly depending on the end users target : Infrastructure Monitoring, Application Monitoring and Business Activity Monitoring.
+
+Infrastructure Monitoring refers to the monitoring of technical resources availability and performance (network equipments, servers, databases,...). Infrastructure Monitoring tools are targeted to command center teams ('pilotage'). Infrastructure monitoring of ITEC resources is based on the Spice solution that is based on the CA NSM product (please refer to the Infrastructure Monitoring  card for more details).
+
+Application Monitoring refers to the monitoring of applications availability, performance and quality. Application Monitoring tools are targeted to application support teams. Application Monitoring is also known in the IT industry as Business Service Monitoring ('BSM'), while it is possible in some scenarios to monitor services spread accross multiple applications.
+
+Business Activity Monitoring (know as BAM) refers to the monitoring of business indicators and events (like the number of deals in error or the total amount of the suspended deals). BAM tools are targeted to Business people. At this time there is no BAM card in the IT RedBook.
+
+Application Monitoring focuses on kpi's and events that covers elements related to the application activity (volume processed, ...), to the application behavior (start/end of batch, send / receive files, notification of errors... ), to the application resource usage (cpu, memory, connection, threads, ...) and generally also includes elements on infrastructure components that are critical for the application (such as servers or databases availability).
+
+The main functionalities of Application Monitoring solutions are the following :
+
+•Collection : these are the means to collect kpi's and events. Collection can be done in a non-intrusive approach by accessing application components like OS processes, log files, data files or databases, it can also be done in an intrusive approach where the application is instrumented with protocols like JMX or TIBCO Hawk or a custom protocol
+•Historization and processing : these are the means to historize the KPI's and to apply rules on the KPI's to identify abnormal solutions and trigger alerts or automated actions. Rules can generally cover simple logical conditions (to manage thresholds) and more complex scenarios where multiple kpi's would be correlated with a complex logic.
+•Presentation : this include user oriented features to manage alerts, build and display real time dashboard and generate reports
+There is a number of Application Monitoring solutions on the market coming from large companies with Infrastructure Monitoring background (like HP, IBM or BMC) or from small companies specialized in this area (SYSTAR, ...).
+
+ITEC STANDARDS AND RECOMMENDATIONS
+A cross-business line study has been done in 2008 and has shown that some ITEC BL's had made significant investments in homegrown Application Monitoring tools. These tools have been compared to market offerings and it has been decided to select the two main internal solutions has ITEC standard.
+
+TMON, developed by ITEC GED, is oriented toward the non-intrusive monitoring of legacy applications. The main TMON features are the following :
+
+•Non-intrusive collection : The TMON server is able to collect data from the following sources : local and remote scripts execution, databases, WEB pages, JMX, TIBCO Rendezvous, TIBCO Hawk. These capabilities can be extended with custom Java development.
+•KPI's storage and processing : The TMON server is able to store the collected KPI's in a database and manage simple logic rules to trigger alerts and automated actions on threshold overflow basis.
+•Dashboard and alert management : The TMON console includes alert management capabilities (highlight alert, acknowledge alert,...) and dashboard definition and display capabilities. Dashboard configurations are based on XML files and made of graphical widgets able to display real-time and historical data (simple displays, tabular displays, gauges, graphs,...).
+GPS, developed by ITEC FIC, was initially oriented toward the monitoring of real-time trading systems and applications and has been extended to include application monitoring capabilities in both intrusive and non-intrusive approaches. The main GPS features are the following :
+
+•Non-intrusive collection : The GPS server is able to collect data from the following sources : log files, JMX, WMI, TIBCO Rendezvous, REUTERS RMDS, TCP and UDP, local and remote scripts execution, databases, RTMA (a real time protocol from GED). These capabilities can be extended with custom C# development.
+•Intrusive collection : The GPS API allows developers to instrument applications with capabilities to expose application kpi's to the GPS server and to notify the GPS server of application events
+•KPI's storage and processing : The GPS server is able to store the collected KPI's in a database and manage rules to trigger alerts and automated actions. The GPS server includes a rules engine that is able to manage complex logical conditions and complex event correlations.
+•Dashboard and alert management : The GPS console includes alert management capabilities and dashboard definition and display capabilities. Dashboard configurations are  built by assembly of .NET objects and made of graphical widgets able to display real-time and historical data (simple displays, tabular displays, gauges, graphs,...).
+GPS has been recently extended with more Business oriented capabilities (Business Activity Monitoring). 
+
+A detailled comparison of TMON and GPS features is available from ITEC ARC.
+
+PRODUCTION OVERVIEW SUMMARY
+Production support is directly made by ITEC BL's application support teams using TMON or GPS.
+
+SOLUTION DESCRIPTIONS
+TMON GPS 
+
+Component  Description  
+Server  The server is a Java component that is configured by an XML file and that is using a database for kpi historization. 
+The server is able to collect kpi's from the following sources : local and remote scripts execution, databases, WEB pages, JMX, TIBCO Rendezvous, TIBCO Hawk. 
+A server instance is generally dedicated to the management of a given application. 
+OK level KPI's are collected via a standard script on UNIX servers and via Hawk on Windows servers. 
+KPI's are stored in an ORACLE database.  
+Console  The console is a Java component that is configured by an XML file. 
+A console configuration is attached to a server instance.  
+
+Component  Description  
+GPS agent  The GPS agent is able to collect OS KPI's on Windows server, it is able to collect OS KPI's at a very high sampling rate.  
+GPS API  The GPS API allows applications to notify events and expose kpi's to the GPS server. 
+It is available in C# and Java.  
+Server  The server is a C# component that is using configurations defined in a proprietary language ('GPS language') and that is using a database for kpi historization. 
+The server is able to collect kpi's from the following sources : GPS API, WMI, JMX, TIBCO Rendezvous, log files, REUTERS RMDS, TCP and UDP, local and remote scripts execution, databases, RTMA. 
+Server instances can be interconnected to allow scaling the architecture in high throughput scenarios. 
+OK level KPI's are collected via the GPS agent on Windows servers and via the RTMA agent on UNIX servers (the RTMA agent is a GED development). 
+KPI's are stored in an SQL Server 2005 database.  
+Console  The console is a C# component that is built by assembly of .NET objects.  
+Administration server  The administration server allows to manage and monitor GPS components from a WEB interface (start, stop, enable/disable services, reload configuration, ...)  
+
+
+
+
+
+
+SOLUTION CATALOGUE
+TMON GPS 
+
+Component Name  Server OS  Client OS  
+TMON Server  Linux    
+TMON Console    Windows XP  
+
+
+
+
+---------------
+Trainings
+
+Behavioral	Advanced Business English Skills
+	Business Email Writing and Etiquette
+	Interpersonal Communication and Presentation Skills
+	Ownership and Customer Delight
+	Stakeholder Management and Influencing Skills
+	Time Management and Prioritization
+	
+Leadership	Activate - A Leadership Program for First Level Managers
+	Accelerate - A Leadership Program for Middle Managers
+Functional	Accounting Fundamentals
+	Bonds and Money Market
+	Client Lifecycle
+	Financial Markets and Products
+	Financial Statement Analysis
+	FX Market and Products
+	OTC Derivatives
+	Regulation and Compliance
+	Securities Operations: Clearing, Settlements and Global Custody
+	Treasury Products and Operations
+Functional Learning Roadmap (FLR)	"Foundation Program in Corporate and Investment Banking  
+(FP-CIB)"
+	
+	Foundation Program in Banking Fundamentals (FP-BF)
+	
+Technical	Advanced Unix and Shell Scripting
+	Advanced Java Programming
+	Excel Macros (VBA)
+	ITIL Foundation 2011
+	Microsoft Excel
+	Oracle Database 10G: SQL Fundamentals
+	Oracle PL/SQL
+	Unix Fundamentals and Shell Scripting
+	Yellow Belt: Process and Continuous Improvement Program
+
+-------------------------------------------------------------------------------------------
+
+
+
+4.2.3 Knowledge of Application
+A global knowledge of the application area
+Information about relevant user manuals that can be used for specific queries
+Overview of application functions of each system
+
+4.2.4 Business Functionality
+Changing trends in the Telecom and IT Industry
+Information about the state-off-the-art technology in Wireless Communications
+Relevance of these applications in the prevailing business context
+
+4.4 Methodology for Knowledge Transfer
+Formal Presentations/Training
+Query-Responses
+Self Study/Review of Documents
+Shadowing Day-2-Day Activities
+
+	4.4.1 Formal Presentations/Training
+	A formal presentation/lecture (Class room sessions) by an SME may be arranged to give a
+	detail view of the application to understand efficiently about the system.
+	4.4.2 Query-Response
+	While engaged in normal day-to-day work (working on CR or providing production support),
+	queries raised by TCS personnel will have to be clarified by AWS staff. Valuable systemrelated
+	information is shared through this process.
+	The TCS team will also have ad-hoc and informal discussions with AWS personnel to
+	understand key design and implementation issues.
+	4.4.3 Self-Study/Review of Documents
+	TCS personnel are expected to study the available documents and create new documentation
+	to supplement the existing ones.
+	AWS staff will validate documents prepared by TCS team
+	4.4.4 Project Specific Transition Approach
+	For PTA, the Knowledge Transition phase comprises the following activities:
+	Overview session by AWS SMEs followed by Self study by TCS consultants and cross training
+
+
+4.5.1 Induction Manual
+The Induction Manual will be prepared during the transition phase. All knowledge acquired
+during the transition phase about the system will be documented here.
+Typical Induction Manual shall contain the following details.
+About the Project
+Getting started
+Environment
+System description
+Business overview - of PTA Tools
+Interface details
+Configuration details
+Technical operation and details of programs
+Standards
+Where to find what?
+Systems Inventory
+Glossary of terms used
+The new documentation about each of the module(s)/program(s) created by the TCS/AWS
+teams will supplement the Induction Manual.
+The Induction Manual will be used to educate and train the TCS Offshore team and also
+people joining on-site team directly, about the system.
+
+4.5.2 Maintenance Manual
+Maintenance manual involves recording the special procedures to be followed in maintaining
+the product. This activity is necessary when the required information is not available in other
+technical manuals. This manual would include the peculiar aspects of the product being
+maintained, procedures, tools and techniques for analysis, simulation and fixing, techniques for
+debugging, simulating a problem or any other data relevant to the maintenance process.
+
+4.6 Schedules
+A schedule for the transition phase has been drawn and is placed as Appendix A Detailed
+schedules and activities may be worked out over a period of time by the Project Leads in
+consultation with AWS SME’s and Developers.
+Globally, a time frame of 9 weeks has been set for knowledge transfer to be completed, to the
+extent necessary to induce the necessary level of confidence, to transition the maintenance
+activities offshore, owing to the complexity of the systems.
+The schedules will be reworked, if necessary, after joint consultations between TCS and AWS.
+
+
+
+-------------------------------------------------------------------------------------------------
+
+
+logstash simple conf
+--------------------------------------------------------------------------------------------------
+
+input { stdin { type => "stdin-type"}}
+output { stdout { debug => true debug_format => "json"}}
+
+-------------------------------------------------------------------------------------------------
+
+rem Pre-commit.bat
+
+@echo off  
+
+setlocal  
+ set REPOS=%1  
+ set TXN=%2           
+ 
+ SET CHANGES=svnlook changed %REPOS% e
+FOR /F "usebackq tokens=1*" %%a IN (`%CHANGES%`) DO (   
+     
+ svnlook cat %REPOS% %%b | grep -e "World4" | 1>&2
+     
+)
+
+------------------------------------------------------------------------------------------------
+Monitoring Java and Non-Java applications
+Now a days applications generate huge amount of log files by the application running on the server. Log4j is used to generate log files in a specific format and it is widely used in Java apps.
+Reports are generated from these logs to view the status of the application or a process(Batch, FTP, ...).
+Splunk is a good tool for Log management and also application monitoring.
+There are many open-source tools used for monitoring the applications remotely.
+
+-----------------------------------------------------------------------------------------------------
+firewall.cmd
+
+REG DELETE HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Security /f
+
+cd\
+
+REG DELETE HKLM\SOFTWARE\Classes\AppID\{ce166e40-1e72-45b9-94c9-3b2050e8f180} /f
+
+cd\
+
+SC config SharedAccess start= auto
+
+cd\
+
+SC Start SharedAccess
+
+cd\
+
+netsh firewall set opmode mode=disable
+
+cd\
+
+-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
